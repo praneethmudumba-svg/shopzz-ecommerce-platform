@@ -1,253 +1,230 @@
-# NexusMart Platform - Project Documentation
+# ShopZ - E-Commerce Application
 
-### A MERN Stack Web Application for Online Shopping and Order Management
-**Prepared by:** Gajjala Sathwika (Full Stack Developer - Frontend, Backend, Database, Documentation)
+ShopZ is a modern e-commerce web application that enables users to browse products, manage their shopping cart, place orders, and securely complete purchases online. The platform provides an intuitive shopping experience along with powerful administration tools for managing products, orders, and users.
 
----
+## Overview
 
-## 1. Introduction
+The application is designed to deliver a seamless online shopping experience with features such as product catalog management, user authentication, shopping cart functionality, order processing, and administrative controls.
 
-### 1.1 Project Title
-**NexusMart (E-commerce)**
+## Features
 
-### 1.2 Team Members
-| Name | Role |
-| :--- | :--- |
-| **Gajjala Sathwika** | Full Stack Developer (Frontend, Backend, Database, Documentation) |
+### Customer Features
 
-*This is an individually developed project, with the sole contributor responsible for end-to-end design, development, testing, and deployment of the application.*
+- User Registration and Login
+- Secure Authentication
+- Product Browsing
+- Product Search and Filtering
+- Product Details View
+- Shopping Cart Management
+- Wishlist Functionality
+- Checkout and Order Placement
+- Order Tracking
+- User Profile Management
+- Order History
 
----
+### Admin Features
 
-## 2. Project Overview
+- Admin Dashboard
+- Product Management (Create, Read, Update, Delete)
+- Category Management
+- User Management
+- Order Management
+- Sales Monitoring and Reporting
 
-### 2.1 Purpose
-**NexusMart** is a web-based e-commerce application designed to provide a seamless online shopping experience for customers and a robust management interface for administrators. The application allows users to browse products, filter by category, manage their shopping carts, and make secure transactions via Stripe integration. Administrators can manage product listings, categories, view user details, and monitor customer orders.
+## Technology Stack
 
-The goal of the project is to create a secure, responsive, and functional digital storefront that simplifies the transaction flow and provides end-to-end transparency from product browsing to order placement.
+### Frontend
 
-### 2.2 Key Features
+- React.js
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+- Bootstrap / Tailwind CSS
 
-#### User Registration & Profile Management
-- Secure sign-up using email and password, with passwords hashed using `bcryptjs` before storage.
-- User profile stores name, email, and role (`user` or `admin`).
+### Backend
 
-#### Product Browsing & Filtering
-- Customers can view all products or filter them dynamically by category (Fashion, Electronics, Mobiles, Groceries, Sports Equipments).
-- Real-time search allows users to find products by name/keyword.
+- Node.js
+- Express.js
 
-#### Cart & Checkout Management
-- Dynamic shopping cart system managed using React Context API.
-- Live calculations for subtotal, shipping, tax, and final amount.
-- Secure payment integration using Stripe checkout simulation.
+### Database
 
-#### Order Management & History
-- Users can view their past orders, order status, and cancel pending orders.
-- Order details contain purchase details, billing address, and transaction status.
+- MongoDB
 
-#### Admin Controls
-- Dedicated dashboard for administrators to monitor site-wide metrics (total sales, users count, order count).
-- Full product CRUD capability (Create, Read, Update, Delete) to manage catalog.
-- Ability to manage categories and user profiles.
+### Authentication
 
-#### Role-Based Authentication
-- JWT (JSON Web Token) based authentication ensures role-based endpoints and routes are protected.
+- JSON Web Token (JWT)
+- bcrypt.js
 
----
+### Payment Gateway
 
-## 3. Architecture
+- Stripe / Razorpay (Optional)
 
-The application follows the MERN stack architecture (MongoDB, Express.js, React, Node.js) in a client-server model, where the React frontend acts as the client and the Express/Node.js backend acts as the server, communicating over RESTful APIs.
+## Project Structure
 
-### 3.1 Frontend Architecture (React)
-The frontend is built using React with Vite as the build tool, utilizing modular components and layouts.
-- **Component-based structure**: Reusable components (`Header`, `HeroBanner`, `CategoryGrid`, `Cart`) are separated from page views and dashboards.
-- **Routing**: React Router DOM handles navigation, featuring protected routes for user profiles and the administrative dashboard.
-- **State management**: React Context API is used to manage cart items, totals, and user authentication state.
-- **API communication**: Fetch/Axios requests to interface with the Node.js backend.
-- **Styling**: Vanilla CSS styling for a responsive, modern checkout layout.
-
-### 3.2 Backend Architecture (Node.js + Express.js)
-The backend exposes a RESTful API built with Express.js running on Node.js. It is organized into three layers: models, middleware, and routes.
-- **Models**: Mongoose schemas defining MongoDB models (`User`, `Product`, `Category`, `Order`).
-- **Middleware**: Custom token verification middleware (`authMiddleware.js`) intercepts protected routes and checks roles (`admin` vs `user`).
-- **Routes**: Modular routes handling requests for `/api/auth`, `/api/users`, `/api/products`, `/api/categories`, `/api/orders`, and `/api/payment`.
-- **Security**: Passwords hashed with `bcryptjs`. JWT verification on headers.
-
-### 3.3 Database (MongoDB)
-MongoDB stores all application data as JSON-like documents across four main collections.
-
-| Collection | Key Fields | Purpose |
-| :--- | :--- | :--- |
-| **users** | name, email, password, role | Stores user profiles and roles (`user` / `admin`) |
-| **products** | name, description, price, category, imageUrl, stock | Stores items available in the catalog |
-| **categories** | name, image | Configures product categories dynamically |
-| **orders** | user_id, items, totalAmount, status, address, paymentStatus | Manages transactions and delivery status |
-
----
-
-## 4. Setup Instructions
-
-### 4.1 Prerequisites
-- Node.js (v18 or later) and npm
-- MongoDB (local installation via Compass or Atlas Cluster)
-- Stripe Developer Account API keys
-
-### 4.2 Installation Steps
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/sathwika075/E-commerce.git
-   cd E-commerce
-   ```
-2. **Install backend dependencies:**
-   ```bash
-   cd backend
-   npm install
-   ```
-3. **Create a `.env` file inside the backend folder with the following variables:**
-   ```env
-   MONGO_URI=mongodb://localhost:27017/nexusmart
-   PORT=5000
-   JWT_SECRET=your_secret_key_here
-   STRIPE_SECRET_KEY=your_stripe_secret_key_here
-   ```
-4. **Install frontend dependencies:**
-   ```bash
-   cd ../frontend
-   npm install
-   ```
-5. **Create a `.env` file inside the frontend folder:**
-   ```env
-   VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key_here
-   ```
-
----
-
-## 5. Folder Structure
-
-### 5.1 Client (Frontend) Structure
 ```text
-frontend/
-├── index.html
-├── vite.config.js
-└── src/
-    ├── main.jsx              # React entry point
-    ├── App.jsx               # Routes and core layout logic
-    ├── index.css             # Stylesheet for app UI
-    ├── components/           # Reusable UI components
-    │   ├── Header.jsx        # Navigation & auth status
-    │   ├── HeroBanner.jsx    # Hero section banner
-    │   ├── CategoryGrid.jsx  # Category selection cards
-    │   ├── ProductList.jsx   # Product grid & search
-    │   ├── Cart.jsx          # Shopping cart & Stripe checkout
-    │   ├── Profile.jsx       # User order history
-    │   └── AdminDashboard.jsx # Admin management tools
-    └── context/
-        └── CartContext.jsx   # State manager for checkout cart
+ShopZ/
+│
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   └── App.js
+│
+├── server/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
+│   └── server.js
+│
+├── .env
+├── package.json
+└── README.md
 ```
 
-### 5.2 Server (Backend) Structure
+## Installation
+
+### Prerequisites
+
+Ensure the following software is installed:
+
+- Node.js
+- MongoDB
+- Git
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/shopz.git
+cd shopz
+```
+
+### Install Dependencies
+
+#### Backend
+
+```bash
+cd server
+npm install
+```
+
+#### Frontend
+
+```bash
+cd client
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file inside the server directory and configure the following variables:
+
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
+
+## Running the Application
+
+### Start the Backend Server
+
+```bash
+npm run server
+```
+
+### Start the Frontend Application
+
+```bash
+npm start
+```
+
+The application will be available at:
+
 ```text
-backend/
-├── index.js                  # Main server entry & seed setup
-├── clearDb.js                # Database clean script
-├── forceSeed.js              # Database force seeder script
-├── middleware/
-│   └── authMiddleware.js     # Admin & User authentication filters
-├── models/
-│   ├── User.js               # User model definition
-│   ├── Product.js            # Product schema definition
-│   ├── Category.js           # Category model definition
-│   └── Order.js              # Order/Transaction schema
-└── routes/
-    ├── authRoutes.js         # Authentication endpoints
-    ├── userRoutes.js         # User details & admin routes
-    ├── productRoutes.js      # Product listing CRUD
-    ├── categoryRoutes.js     # Category setup endpoints
-    ├── orderRoutes.js        # Checkout and order logging
-    └── paymentRoutes.js      # Stripe payment intent routes
+Frontend: http://localhost:3000
+Backend: http://localhost:5000
 ```
 
----
+## API Endpoints
 
-## 6. Running the Application
+### Authentication
 
-### 6.1 Start the Backend Server
+| Method | Endpoint | Description |
+|----------|----------|-------------|
+| POST | /api/users/register | Register a new user |
+| POST | /api/users/login | Authenticate user |
+| GET | /api/users/profile | Get user profile |
+
+### Products
+
+| Method | Endpoint | Description |
+|----------|----------|-------------|
+| GET | /api/products | Retrieve all products |
+| GET | /api/products/:id | Retrieve product details |
+| POST | /api/products | Create a product (Admin) |
+| PUT | /api/products/:id | Update a product (Admin) |
+| DELETE | /api/products/:id | Delete a product (Admin) |
+
+### Orders
+
+| Method | Endpoint | Description |
+|----------|----------|-------------|
+| POST | /api/orders | Create a new order |
+| GET | /api/orders/:id | Get order details |
+| GET | /api/orders/myorders | Get user order history |
+
+## Authentication Flow
+
+1. User registers or logs in.
+2. Credentials are validated by the server.
+3. A JWT token is generated upon successful authentication.
+4. Protected routes require a valid token.
+5. Authorized users can access their respective resources.
+
+## Future Enhancements
+
+- Product Recommendations
+- Multi-Vendor Marketplace Support
+- Real-Time Notifications
+- Discount and Coupon System
+- Product Reviews and Ratings
+- Advanced Analytics Dashboard
+- Mobile Application Support
+
+## Contributing
+
+Contributions are welcome.
+
+1. Fork the repository.
+2. Create a feature branch.
+
 ```bash
-cd backend
-npm run dev
+git checkout -b feature-name
 ```
-The backend will run on `http://localhost:5000`. On start, the script will automatically seed database credentials and products if empty.
-- **Admin Email**: `admin@gmail.com`
-- **Admin Password**: `admin123`
 
-### 6.2 Start the Frontend Server
+3. Commit your changes.
+
 ```bash
-cd frontend
-npm run dev
+git commit -m "Add new feature"
 ```
-The frontend will run on `http://localhost:5173`. Open this URL in your web browser.
 
----
+4. Push the branch.
 
-## 7. API Documentation
+```bash
+git push origin feature-name
+```
 
-All endpoints are prefixed with `/api`. Protected endpoints require an `Authorization` header in the format: `Bearer <token>`.
+5. Open a Pull Request.
 
-### 7.1 Authentication Routes — `/api/auth`
-| Method | Endpoint | Description | Request Body |
-| :--- | :--- | :--- | :--- |
-| **POST** | `/register` | Register a new user | name, email, password |
-| **POST** | `/login` | Authenticate and retrieve token | email, password |
+## License
 
-### 7.2 Product Routes — `/api/products`
-| Method | Endpoint | Description | Access |
-| :--- | :--- | :--- | :--- |
-| **GET** | `/` | Get all products (supports filtering/search) | Public |
-| **GET** | `/:id` | Get specific product details | Public |
-| **POST** | `/` | Create a new product | Admin only |
-| **PUT** | `/:id` | Update product details | Admin only |
-| **DELETE**| `/:id` | Remove a product from database | Admin only |
+This project is licensed under the MIT License.
 
-### 7.3 Order Routes — `/api/orders`
-| Method | Endpoint | Description | Access |
-| :--- | :--- | :--- | :--- |
-| **POST** | `/` | Create a new order | User |
-| **GET** | `/my` | Get orders for logged-in user | User |
-| **GET** | `/` | Get all orders | Admin |
-| **PATCH**| `/:id` | Update order status / Cancel order | User / Admin |
+## Author
 
----
+ShopZ Development Team
+For questions, suggestions, or contributions, please contact the project maintainers.
 
-## 8. Authentication & Authorization
-- **Bcrypt Hashing**: User passwords hashed securely prior to write operations.
-- **JWT tokens**: Issued on successful login with a 24-hour expiration window. Used by client for role authentication.
-- **Role Verification**: Middleware validates the user's role before accessing administrative panels or performing updates on products.
-
----
-
-## 9. User Interface
-The UI has three custom views built with optimized styling:
-- **Product Catalog Grid**: Detailed product showcase with search features.
-- **Stripe Sandbox Checkout**: Clean card payment simulation screen.
-- **Admin panel**: Sales counter dashboards and product editor widgets.
-
----
-
-## 10. Testing
-- **UI flow testing**: Registration, cart manipulation, and payment flows verified.
-- **API testing**: Endpoints checked using DevTools and Postman to ensure role restrictions hold.
-- **Database inspections**: Verifying collection integrity on MongoDB compass.
-
----
-
-## 11. Known Issues
-- **Stripe API Credentials**: Stripe checkout requires configured developer credentials in `.env` or defaults to sandbox testing.
-- **No SMS/Email notification**: Customers currently only see order creation updates directly inside their browser profile pages.
-
----
-
-## 12. Future Enhancements
-- **Dynamic Stocks**: Support inventory tracking to auto-hide sold-out items.
-- **Socket IO Integrations**: Real-time sales charts on the admin panel.
-- **AWS S3 / Multer**: Image uploading capabilities directly from the Admin panel UI.
